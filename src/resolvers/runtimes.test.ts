@@ -39,6 +39,7 @@ describe("resolveRuntime()", () => {
 
       const resolvedRuntime = resolveRuntime(runtime);
 
+      assertEquals(Object.keys(resolvedRuntime).length, 5);
       assertEquals(typeof resolvedRuntime.inspect, "function");
       assertEquals(typeof resolvedRuntime.isPiping, "boolean");
       assertInstanceOf(resolvedRuntime.stdin, ReadableStream);
