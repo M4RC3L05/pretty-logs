@@ -28,7 +28,6 @@
   "remote": {},
   "workspace": {
     "dependencies": [
-      "jsr:@cross/utils@0.16.0",
       "jsr:@std/assert@1.0.5",
       "jsr:@std/fmt@1.0.2",
       "jsr:@std/streams@1.0.5",
