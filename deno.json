@@ -16,7 +16,7 @@
   },
   "publish": {
     "include": [
-      "./src/*.ts",
+      "./src",
       "README.md",
       "LICENCE",
       "deno.json",
