@@ -7,7 +7,7 @@ if (import.meta.main) {
 
   if (!runningOn) {
     throw new Error(
-      "COuld not determine the current runtime.\nSupported runtimes: bun, deno, node.",
+      "Could not determine the current runtime.\nSupported runtimes: bun, deno, node.",
     );
   }
 
