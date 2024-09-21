@@ -3,6 +3,7 @@ import { restore, stub } from "@std/testing/mock";
 import { assertSnapshot } from "@std/testing/snapshot";
 import { assertEquals, assertInstanceOf, fail } from "@std/assert";
 import process from "node:process";
+import fs from "node:fs";
 import { resolveRuntime } from "./runtime.ts";
 import type { SupportedRuntime } from "../types.ts";
 
@@ -28,6 +29,11 @@ describe("resolveRuntime()", () => {
       if (["bun", "node"].includes(runtime)) {
         stub(process.stdin, "on");
         stub(process.stdout, "on");
+        stub(fs, "fstatSync", () => ({ isFile: () => true }) as any);
+      }
+
+      if (runtime === "deno") {
+        stub(Deno, "fstatSync", () => ({ isFile: () => true }) as any);
       }
 
       const resolvedRuntime = resolveRuntime(runtime);
