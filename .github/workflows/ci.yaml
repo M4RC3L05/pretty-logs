@@ -26,4 +26,3 @@ jobs:
 
       - name: check linting
         run: mise run check:lint
-
