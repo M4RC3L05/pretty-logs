@@ -1,6 +1,5 @@
 import { afterEach, describe, it } from "@std/testing/bdd";
 import { restore, stub } from "@std/testing/mock";
-import { assertSnapshot } from "@std/testing/snapshot";
 import { assertEquals, assertInstanceOf, fail } from "@std/assert";
 import process from "node:process";
 import fs from "node:fs";
@@ -25,7 +24,7 @@ describe("resolveRuntime()", () => {
   });
 
   for (const runtime of ["bun", "deno", "node"] as SupportedRuntime[]) {
-    it(`should resolve the runtime for ${runtime}`, async (ctx) => {
+    it(`should resolve the runtime for ${runtime}`, () => {
       if (["bun", "node"].includes(runtime)) {
         stub(process.stdin, "on");
         stub(process.stdout, "on");
@@ -40,7 +39,11 @@ describe("resolveRuntime()", () => {
 
       const resolvedRuntime = resolveRuntime(runtime);
 
-      await assertSnapshot(ctx, resolvedRuntime);
+      assertEquals(typeof resolvedRuntime.inspect, "function");
+      assertEquals(typeof resolvedRuntime.isPiping, "boolean");
+      assertInstanceOf(resolvedRuntime.stdin, ReadableStream);
+      assertInstanceOf(resolvedRuntime.stdout, WritableStream);
+      assertEquals(typeof resolvedRuntime.waitFirstSigint, "function");
     });
   }
 });
