@@ -4,24 +4,18 @@ Pretty format json logs
 
 ## Usage
 
-### Deno
+JSR does not currently suport export bin so:
 
-Just pipe to the package bin export:
-
-```cmd
-foo | deno run --no-lock jsr:@m4rc3l05/pretty-logs/bin
-```
-
-### Bun/NodeJS
-
-Create a script ex: ./pretty:
+Create a script example: ./pretty:
 
 ```js
-#!/usr/bin/env <bun/node>
+#!/usr/bin/env <bun/deno/node>
 
 import { pretty, resolveRuntime, runtime } from "@m4rc3l05/pretty-logs";
 
-await pretty(resolveRuntime(runtime()));
+if (import.meta.main) {
+  await pretty(resolveRuntime(runtime()));
+}
 ```
 
 Make it executable and pipe to that script:

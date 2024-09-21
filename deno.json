@@ -1,10 +1,7 @@
 {
   "name": "@m4rc3l05/pretty-logs",
   "version": "0.0.0-1",
-  "exports": {
-    ".": "./src/mod.ts",
-    "./bin": "./src/bin.ts"
-  },
+  "exports": "./src/mod.ts",
   "tasks": {
     "deps:lock": "deno cache --frozen=false **/*.ts",
     "deps": "deno cache --reload --frozen **/*.ts"
