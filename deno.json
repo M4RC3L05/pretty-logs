@@ -14,9 +14,6 @@
       "include": ["verbatim-module-syntax"]
     }
   },
-  "lock": {
-    "frozen": true
-  },
   "publish": {
     "include": [
       "./src/*.ts",
