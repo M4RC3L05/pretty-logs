@@ -19,3 +19,5 @@ export const pretty = async (
     .pipeThrough(new TextEncoderStream())
     .pipeTo(stdout);
 };
+
+export * from "./types.ts";
