@@ -21,3 +21,5 @@ export const pretty = async (
 };
 
 export * from "./types.ts";
+export * from "./resolvers/runtime.ts";
+export { runtime } from "./utils.ts";
