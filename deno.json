@@ -18,6 +18,10 @@
       "LICENCE",
       "deno.json",
       "deno.lock"
+    ],
+    "exclude": [
+      "**/*.test.ts",
+      "**/*.snap"
     ]
   },
   "imports": {
