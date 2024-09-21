@@ -26,3 +26,6 @@ jobs:
 
       - name: check linting
         run: mise run check:lint
+
+      - name: run tests
+        run: deno test
