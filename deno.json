@@ -1,7 +1,10 @@
 {
   "name": "@m4rc3l05/pretty-logs",
   "version": "0.1.0",
-  "exports": "./src/mod.ts",
+  "exports": {
+    ".": "./src/mod.ts",
+    "./bin/deno": "./bin/deno.ts"
+  },
   "tasks": {
     "deps:lock": "deno cache --frozen=false **/*.ts",
     "deps": "deno cache --reload --frozen **/*.ts"
@@ -13,6 +16,7 @@
   },
   "publish": {
     "include": [
+      "./bin",
       "./src",
       "README.md",
       "LICENCE",
