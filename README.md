@@ -29,5 +29,5 @@ foo | ./pretty
 In deno you can just deno run the package and pipe to it:
 
 ```cmd
-foo | deno run --no-lock jsr:@m4rc3l05/pretty-logs@0.0.0-1/bin
+foo | deno run --no-lock jsr:@m4rc3l05/pretty-logs/bin/deno
 ```
