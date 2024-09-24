@@ -28,14 +28,10 @@ describe("resolveRuntime()", () => {
       if (["bun", "node"].includes(runtime)) {
         stub(process.stdin, "on");
         stub(process.stdout, "on");
-        // deno-lint-ignore no-explicit-any
-        stub(fs, "fstatSync", () => ({ isFile: () => true }) as any);
       }
 
-      if (runtime === "deno") {
-        // deno-lint-ignore no-explicit-any
-        stub(Deno, "fstatSync", () => ({ isFile: () => true }) as any);
-      }
+      // deno-lint-ignore no-explicit-any
+      stub(fs, "fstatSync", () => ({ isFile: () => true }) as any);
 
       const resolvedRuntime = resolveRuntime(runtime);
 

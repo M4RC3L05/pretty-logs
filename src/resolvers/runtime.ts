@@ -50,9 +50,7 @@ export const resolveRuntime = (
           trailingComma: true,
         }),
       isPiping: !Deno.stdin.isTerminal() &&
-        // TODO: update for deno v2
-        // deno-lint-ignore no-deprecated-deno-api
-        !Deno.fstatSync(Deno.stdin.rid).isFile,
+        !fstatSync(process.stdin.fd).isFile(),
       stdin: Deno.stdin.readable,
       stdout: Deno.stdout.writable,
     };
