@@ -2,6 +2,7 @@ import type { SupportedRuntime } from "../types.ts";
 import process from "node:process";
 import { fstatSync } from "node:fs";
 import { inspect } from "node:util";
+import { Readable, Writable } from "node:stream";
 
 export const resolveRuntime = (
   runtime: SupportedRuntime,
@@ -12,24 +13,36 @@ export const resolveRuntime = (
   waitFirstSigint: () => void;
   inspect: (data: unknown) => string;
 } => {
-  if (["bun", "node"].includes(runtime)) {
+  if (runtime === "bun") {
+    return {
+      waitFirstSigint: () => process.once("SIGINT", () => {}),
+      inspect: (data) =>
+        // deno-lint-ignore ban-ts-comment
+        // @ts-ignore
+        Bun.inspect(data, { colors: true, depth: 100, sorted: true }),
+      isPiping: !process.stdin.isTTY &&
+        !fstatSync(process.stdin.fd).isFile(),
+      // deno-lint-ignore ban-ts-comment
+      // @ts-ignore
+      stdin: Bun.stdin.stream() as ReadableStream,
+      stdout: new WritableStream({
+        write: async (chunk) => {
+          // deno-lint-ignore ban-ts-comment
+          // @ts-ignore
+          await Bun.write(Bun.stdout, chunk);
+        },
+      }),
+    };
+  }
+
+  if (runtime === "node") {
     return {
       waitFirstSigint: () => process.once("SIGINT", () => {}),
       inspect: (data) => inspect(data, false, 1000, true),
       isPiping: !process.stdin.isTTY &&
         !fstatSync(process.stdin.fd).isFile(),
-      stdin: new ReadableStream({
-        start: (controller) => {
-          process.stdin.on("data", (chunk) => controller.enqueue(chunk));
-          process.stdin.on("end", () => controller.close());
-          process.stdin.on("error", (error) => controller.error(error));
-        },
-      }),
-      stdout: new WritableStream({
-        write: (chunk) => {
-          process.stdout.write(chunk);
-        },
-      }),
+      stdin: Readable.toWeb(process.stdin) as ReadableStream,
+      stdout: Writable.toWeb(process.stdout),
     };
   }
 

@@ -25,7 +25,13 @@ describe("resolveRuntime()", () => {
 
   for (const runtime of ["bun", "deno", "node"] as SupportedRuntime[]) {
     it(`should resolve the runtime for ${runtime}`, () => {
-      if (["bun", "node"].includes(runtime)) {
+      if (runtime === "bun") {
+        // deno-lint-ignore ban-ts-comment
+        // @ts-ignore
+        globalThis.Bun = { stdin: { stream: () => Deno.stdin.readable } };
+      }
+
+      if (runtime === "node") {
         stub(process.stdin, "on");
         stub(process.stdout, "on");
       }
@@ -41,6 +47,10 @@ describe("resolveRuntime()", () => {
       assertInstanceOf(resolvedRuntime.stdin, ReadableStream);
       assertInstanceOf(resolvedRuntime.stdout, WritableStream);
       assertEquals(typeof resolvedRuntime.waitFirstSigint, "function");
+
+      // deno-lint-ignore ban-ts-comment
+      // @ts-ignore
+      delete globalThis.Bun;
     });
   }
 });
